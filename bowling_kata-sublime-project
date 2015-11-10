@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+
+			// Hides useles folders
+			"folder_exclude_patterns": [
+				"deps",
+				"objs",
+				"bin"
+			],
+
+			// In case we want to hide any files
+			"file_exclude_patterns":[
+			]
+		}
+	]
+}
