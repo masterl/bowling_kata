@@ -32,7 +32,7 @@ LIBDIR = -L/usr/lib
 #PGFLAG = -lpq
 #ALLBOOSTFLAGS = -lboost_locale -lpthread -lboost_thread -lboost_filesystem -lboost_system -lboost_regex -lboost_serialization -lboost_random
 #ALLENDFLAGS = -lssl -lcrypto -lz -ldl -lmhash -lcurl
-GENERALSTARTFLAGS = -Wall -std=c++11
+GENERALSTARTFLAGS = -Wall -std=c++14
 #STACKTRACEFLAGS = -rdynamic
 ALLCOMPFLAGS = $(GENERALSTARTFLAGS)
 
@@ -41,7 +41,7 @@ ifeq ($(MAKECMDGOALS),test)
 	TESTFLAG = -lgmock_main -lgmock -lgtest
 endif
 
-LINKFLAGS = $(TESTFLAG) -lboost_system -lpthread
+LINKFLAGS = $(TESTFLAG) -lpthread
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Sources directories
@@ -51,16 +51,13 @@ MAINDIR = src
 
 UTILSDIR = util
 
-HELPERSDIR = helper
-
 UTILTESTSDIR = tests/util
-HELPERTESTSDIR = tests/helper
 
 ifeq ($(MAKECMDGOALS),test)
 	TESTSDIR = tests
-	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR) $(TESTSDIR) $(HELPERSDIR) $(UTILTESTSDIR) $(HELPERTESTSDIR)
+	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR) $(TESTSDIR) $(UTILTESTSDIR)
 else
-	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR) $(HELPERSDIR) $(UTILTESTSDIR)
+	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR) $(UTILTESTSDIR)
 endif
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -87,7 +84,6 @@ ifeq ($(MAKECMDGOALS),test)
 	MAINFILES = $(filter-out $(MAINDIR)/main.cpp , $(wildcard $(MAINDIR)/*.cpp) )
 	TESTSFILES = $(wildcard $(TESTSDIR)/*.cpp)
 	UTILTESTSFILES = $(wildcard $(UTILTESTSDIR)/*.cpp)
-	HELPERTESTSFILES = $(wildcard $(HELPERTESTSDIR)/*.cpp)
 endif
 
 ifeq ($(MAKECMDGOALS),exec)
@@ -104,34 +100,26 @@ HELPERSFILES = $(wildcard $(HELPERSDIR)/*.cpp)
 #   Dependencias dos .o
 MAINDEPS := $(addprefix $(MAINDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(MAINFILES))))
 UTILSDEPS := $(addprefix $(UTILSDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(UTILSFILES))))
-HELPERSDEPS := $(addprefix $(HELPERSDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(HELPERSFILES))))
 TESTSDEPS := $(addprefix $(TESTSDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(TESTSFILES))))
 UTILTESTSDEPS := $(addprefix $(UTILTESTSDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(UTILTESTSFILES))))
-HELPERTESTSDEPS := $(addprefix $(HELPERTESTSDIR)/$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $(HELPERTESTSFILES))))
 
 #   Dependencias dos .d
 MAINDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(MAINDEPS))
 UTILSDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(UTILSDEPS))
-HELPERSDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(HELPERSDEPS))
 TESTSDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(TESTSDEPS))
 UTILTESTSDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(UTILTESTSDEPS))
-HELPERTESTSDEPDEPS := $(subst .d,$(DEPSUFFIX).d,$(HELPERTESTSDEPS))
 
-
-ALLDEPDEPS :=	$(MAINDEPDEPS) $(UTILSDEPDEPS) $(TESTSDEPDEPS) $(HELPERSDEPDEPS) $(UTILTESTSDEPDEPS) $(HELPERTESTSDEPDEPS)
+ALLDEPDEPS :=	$(MAINDEPDEPS) $(UTILSDEPDEPS) $(TESTSDEPDEPS) $(UTILTESTSDEPDEPS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Object Lists
 #--------------------------------------------------------------------------
 MAINOBJS := $(addprefix $(MAINDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(MAINFILES))))
 UTILSOBJS := $(addprefix $(UTILSDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(UTILSFILES))))
-HELPERSOBJS := $(addprefix $(HELPERSDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(HELPERSFILES))))
 TESTSOBJS := $(addprefix $(TESTSDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(TESTSFILES))))
 UTILTESTSOBJS := $(addprefix $(UTILTESTSDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(UTILTESTSFILES))))
-HELPERTESTSOBJS := $(addprefix $(HELPERTESTSDIR)/$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $(HELPERTESTSFILES))))
 
-
-ALLOBJS :=	$(MAINOBJS) $(UTILSOBJS) $(TESTSOBJS) $(HELPERSOBJS) $(UTILTESTSOBJS) $(HELPERTESTSOBJS)
+ALLOBJS :=	$(MAINOBJS) $(UTILSOBJS) $(TESTSOBJS) $(UTILTESTSOBJS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Executable
@@ -221,7 +209,7 @@ rmdeps: FORCE
 
 rmobjs: FORCE
 	$(foreach dir, $(OBJDIRLIST) tests/$(OBJDIR), $(call execute-command, rm -rf $(dir) ) )
-	
+
 FORCE:
 
 #  ===========================
