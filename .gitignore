@@ -78,3 +78,4 @@ Thumbs.db
 # No Vagrant trash #
 ####################
 .vagrant/
+*.swp
