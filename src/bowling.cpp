@@ -33,6 +33,18 @@ size_t bowling( std::string const &scores )
                 }
                 break;
             case strike:
+                if( had_spare )
+                {
+                    acc += ten_number;
+                    had_spare = false;
+                }
+
+                if( strike_count )
+                {
+                    acc += ten_number;
+                    --strike_count;
+                }
+
                 strike_count += 2;
                 acc += ten_number;
                 break;
