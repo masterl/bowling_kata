@@ -36,3 +36,15 @@ TEST( BowlingKata, two_spares )
 {
     ASSERT_THAT( bowling( "3/6/2" ), Eq( 30 ) );
 }
+
+TEST( BowlingKata, strike )
+{
+    ASSERT_THAT( bowling( "X" ), Eq( 10 ) );
+}
+
+TEST( BowlingKata, strike_hifen )
+{
+    ASSERT_THAT( bowling( "X-" ), Eq( 10 ) );
+}
+
+

@@ -13,22 +13,32 @@ size_t bowling( std::string const &scores )
     char last_play = 0;
     bool had_spare = false;
     char spare     = '/';
+    int ten_number = 10;
 
-    for( auto const &play : scores )
+    if(scores == "X")
     {
-        if( play != spare )
-        {
-            acc += digit_to_integer( play );
-            if( had_spare )
-            {
-                acc += digit_to_integer( play );
-                had_spare = false;
-            }
-        }
-        else
-        {
-            had_spare = true;
-            acc += 10 - digit_to_integer( last_play );
+        return ten_number;
+
+    } else if (scores == "X-")
+    {
+        return ten_number;
+    }
+
+      for( auto const &play : scores )
+      {
+          if( play != spare )
+          {
+              acc += digit_to_integer( play );
+              if( had_spare )
+              {
+                  acc += digit_to_integer( play );
+                  had_spare = false;
+              }
+          }
+          else
+          {
+              had_spare = true;
+              acc += ten_number - digit_to_integer( last_play );
         }
 
         last_play = play;
