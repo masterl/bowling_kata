@@ -9,36 +9,48 @@ static size_t digit_to_integer( char digit )
 
 size_t bowling( std::string const &scores )
 {
-    size_t acc     = 0;
-    char last_play = 0;
-    bool had_spare = false;
-    char spare     = '/';
-    int ten_number = 10;
+    size_t acc           = 0;
+    char last_play       = 0;
+    bool had_spare       = false;
+    const char spare     = '/';
+    const char strike    = 'X';
+    const char no_play   = '-';
+    const int ten_number = 10;
+    int strike_count     = 0;
 
-    if(scores == "X")
+    for( auto const &play : scores )
     {
-        return ten_number;
+        switch( play )
+        {
+            case spare:
+                had_spare = true;
+                acc += ten_number - digit_to_integer( last_play );
 
-    } else if (scores == "X-")
-    {
-        return ten_number;
-    }
+                if( strike_count )
+                {
+                    acc += ten_number - digit_to_integer( last_play );
+                    --strike_count;
+                }
+                break;
+            case strike:
+                strike_count += 2;
+                acc += ten_number;
+                break;
+            case no_play:
+                break;
+            default:
+                acc += digit_to_integer( play );
+                if( had_spare )
+                {
+                    acc += digit_to_integer( play );
+                    had_spare = false;
+                }
 
-      for( auto const &play : scores )
-      {
-          if( play != spare )
-          {
-              acc += digit_to_integer( play );
-              if( had_spare )
-              {
-                  acc += digit_to_integer( play );
-                  had_spare = false;
-              }
-          }
-          else
-          {
-              had_spare = true;
-              acc += ten_number - digit_to_integer( last_play );
+                if( strike_count )
+                {
+                    acc += digit_to_integer( play );
+                    --strike_count;
+                }
         }
 
         last_play = play;

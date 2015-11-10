@@ -47,4 +47,17 @@ TEST( BowlingKata, strike_hifen )
     ASSERT_THAT( bowling( "X-" ), Eq( 10 ) );
 }
 
+TEST( BowlingKata, strike_and_next_play )
+{
+    ASSERT_THAT( bowling( "X-5" ), Eq( 20 ) );
+}
 
+TEST( BowlingKata, strike_and_next_two_plays )
+{
+    ASSERT_THAT( bowling( "X-54" ), Eq( 28 ) );
+}
+
+TEST( BowlingKata, strike_and_spare )
+{
+    ASSERT_THAT( bowling( "X-5/" ), Eq( 30 ) );
+}
