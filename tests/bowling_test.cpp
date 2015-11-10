@@ -26,3 +26,8 @@ TEST( BowlingKata, one_spare )
 {
     ASSERT_THAT( bowling( "3/" ), Eq( 10 ) );
 }
+
+TEST( BowlingKata, spare_and_next_play )
+{
+    ASSERT_THAT( bowling( "3/6" ), Eq( 22 ) );
+}
