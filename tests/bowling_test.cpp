@@ -64,5 +64,5 @@ TEST( BowlingKata, strike_and_spare )
 
 TEST( BowlingKata, full_play )
 {
-    ASSERT_THAT( bowling( "3/ X- 5/ 32 1/ X- X- 3/ 31 45" ), Eq(  ) );
+    ASSERT_THAT( bowling( "3/X-5/321/X-X-3/3145" ), Eq(147));
 }
